@@ -7,7 +7,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.dao.UserDAO;
-import ru.kata.spring.boot_security.demo.dao.UserDAOImpl;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.List;
@@ -62,12 +61,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userDAO.getById(id);
     }
 
+    @Transactional
     @Override
     public User findByEmail(String email) {
         return userDAO.findByEmail(email);
     }
 
-
+    @Transactional
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = findByEmail(email);
@@ -76,7 +76,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-
+        user.getRoles().size();
+        user.getAuthorities().size();
         return user;
     }
 }
